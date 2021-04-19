@@ -1,11 +1,19 @@
 <template>
     <div>
-        {{title}}
+        <h1>{{title}}</h1>
+        <List
+        v-for="list in lists"
+        v-bind:key="list.id"
+        v-bind:title="list.title"
+        v-bind:cards="list.cards"
+        />
+        <button>Add list</button>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import List from '@/components/List.vue';
 
 export default Vue.extend({
   name: 'Board',
@@ -39,6 +47,9 @@ export default Vue.extend({
         },
       ],
     };
+  },
+  components: {
+    List,
   },
 });
 </script>
