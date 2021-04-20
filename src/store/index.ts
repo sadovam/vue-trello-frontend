@@ -19,15 +19,23 @@ export default new Vuex.Store({
     UPDATE_BOARDS(state, boards) {
       state.boards = boards;
     },
+    UPDATE_BOARD(state, board) {
+      state.board = board;
+    },
   },
   actions: {
     async getBoards({ commit }) {
       const { data: { boards } } = await api.get('/board'); // не забудьте импортировать api!
       commit('UPDATE_BOARDS', boards);
     },
+    async getBoard({ commit }, { id }) {
+      const { data } = await api.get(`/board/${id}`);
+      commit('UPDATE_BOARD', data);
+    },
   },
   getters: {
     boards: (state) => state.boards,
+    board: (state) => state.board,
   },
   modules: {
   },
