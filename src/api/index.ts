@@ -8,7 +8,5 @@ const instance = axios.create({
     Authorization: 'Bearer 123', // к этому мы ещё вернёмся как-нибудь потом
   },
 });
-// console.log('===>> ', api.baseURL);
-// instance.interceptors.response.use((res) => res.data);
 
 export default instance;

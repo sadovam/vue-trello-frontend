@@ -4,10 +4,6 @@ import api from '@/api';
 
 Vue.use(Vuex);
 
-// type IBoards = {
-//   boards: [],
-// }
-
 export default new Vuex.Store({
   state: {
     board: {},
@@ -25,7 +21,7 @@ export default new Vuex.Store({
   },
   actions: {
     async getBoards({ commit }) {
-      const { data: { boards } } = await api.get('/board'); // не забудьте импортировать api!
+      const { data: { boards } } = await api.get('/board');
       commit('UPDATE_BOARDS', boards);
     },
     async getBoard({ commit }, { id }) {

@@ -21,7 +21,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/board/:board_id',
     name: 'Board',
-    component: () => import(/* webpackChunkName: "board" */ '../views/Board.vue'),
+    component: () => import('../views/Board.vue'),
   },
 ];
 
