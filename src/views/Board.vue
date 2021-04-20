@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>{{title}}</h1>
+        <h1>{{title}} | {{$route.params.board_id}}</h1>
         <List
         v-for="list in lists"
         v-bind:key="list.id"
