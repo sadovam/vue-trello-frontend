@@ -24,5 +24,33 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+div {
+  position: relative;
+  margin: 10px;
+  padding: 15px;
+  font-size: 1em;
+  border-radius: 15px;
+  background-color: lightseagreen;
+  color: maroon;
+}
+
+button {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  outline: transparent;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 7px;
+  background-color: maroon;
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+div:hover {
+  background-color: seagreen;
+}
 
 </style>

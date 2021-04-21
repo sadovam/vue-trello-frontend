@@ -1,12 +1,12 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <div v-if="boards">
+    <h1><img alt="Vue logo" src="../assets/logo.png"> My Boards</h1>
+    <div v-if="boards" class="boards">
     <router-link v-for="board in boards" v-bind:key="board.id" v-bind:to="'/board/' + board.id">
       <BoardTmb v-bind:title="board.title" />
     </router-link>
-    </div>
     <button>Add board</button>
+    </div>
   </div>
 </template>
 
@@ -30,3 +30,37 @@ export default Vue.extend({
 
 });
 </script>
+
+<style scoped lang="scss">
+
+button {
+  padding: 15px;
+  margin: 10px;
+  height: 7em;
+  font-size: 1em;
+  border-radius: 15px;
+  background-color: #0dbc79;
+  color: darkred;
+}
+
+h1 {
+  font-size: 3em;
+  color: #0dbc79;
+}
+
+img {
+  height: 1em;
+}
+
+.boards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: maroon;
+}
+
+</style>

@@ -1,13 +1,15 @@
 <template>
     <div>
         <h1>Board: | {{$route.params.board_id}}</h1>
-        <List
-        v-for="list in board.lists"
-        v-bind:key="list.id"
-        v-bind:title="list.title"
-        v-bind:cards="list.cards"
-        />
+        <div class="lists">
+          <List
+          v-for="list in board.lists"
+          v-bind:key="list.id"
+          v-bind:title="list.title"
+          v-bind:cards="list.cards"
+          />
         <button>Add list</button>
+        </div>
     </div>
 </template>
 
@@ -32,5 +34,24 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+h1 {
+  color: darkgreen;
+}
+
+.lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 10px;
+}
+
+button {
+  padding: 15px;
+  margin: 10px;
+  font-size: 1em;
+  border-radius: 15px;
+  background-color: rgb(62, 218, 210);
+  color: darkred;
+  height: 7em;
+}
 
 </style>
