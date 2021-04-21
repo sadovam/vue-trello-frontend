@@ -5,22 +5,30 @@
     <router-link v-for="board in boards" v-bind:key="board.id" v-bind:to="'/board/' + board.id">
       <BoardTmb v-bind:title="board.title" />
     </router-link>
-    <button>Add board</button>
+    <button @click="showModal = true">Add board</button>
     </div>
+    <AddBoardModal v-if="showModal" @close="showModal = false"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import BoardTmb from '@/components/BoardTmb.vue';
+import AddBoardModal from '@/components/AddBoardModal.vue';
 
 export default Vue.extend({
   name: 'Home',
+  data() {
+    return {
+      showModal: false,
+    };
+  },
   async mounted() {
     await this.$store.dispatch('getBoards');
   },
   components: {
     BoardTmb,
+    AddBoardModal,
   },
   computed: {
     boards() {
