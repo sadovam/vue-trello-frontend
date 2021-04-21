@@ -1,6 +1,12 @@
 <template>
     <div>
-        <h1>Board: | {{$route.params.board_id}}</h1>
+        <h1 v-if="currentBoard" @click="switchTitleEditInput">{{currentBoard.title}}</h1>
+        <input
+          v-if="showTitleEdit"
+          v-model="newTitle"
+          @keyup.enter="updateTitle"
+          @blur="updateTitle"
+        />
         <div class="lists">
           <List
           v-for="list in board.lists"
@@ -16,19 +22,56 @@
 <script lang="ts">
 import Vue from 'vue';
 import List from '@/components/List.vue';
+import api from '@/api';
 
 export default Vue.extend({
   name: 'Board',
+
+  data() {
+    return {
+      showTitleEdit: false,
+      newTitle: '',
+    };
+  },
+
   async mounted() {
+    if (!this.currentBoard) {
+      await this.$store.dispatch('getBoards');
+    }
     await this.$store.dispatch('getBoard', { id: this.$route.params.board_id });
   },
+
   computed: {
     board() {
       return this.$store.getters.board;
     },
+    currentBoard() {
+      return this.$store.state.boards.find(
+        (board: {id: number, title: string}) => board.id.toString() === this.$route.params.board_id,
+      );
+    },
   },
+
   components: {
     List,
+  },
+
+  methods: {
+    switchTitleEditInput() {
+      this.showTitleEdit = !this.showTitleEdit;
+      this.newTitle = this.currentBoard.title;
+    },
+    updateTitle() {
+      this.newTitle = this.newTitle.trim();
+      if (this.newTitle === '') return;
+      api.put(`/board/${this.$route.params.board_id}`, { title: this.newTitle })
+        .then(({ data: { result } }) => {
+          if (result === 'Updated') {
+            this.$store.dispatch('getBoards');
+          }
+          this.showTitleEdit = false;
+        });
+    },
   },
 });
 </script>

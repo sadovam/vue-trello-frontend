@@ -22,7 +22,7 @@ div {
   padding: 15px;
   font-size: 1em;
   border-radius: 15px;
-  background-color: rgb(11, 119, 114);
+  background-color: rgb(226, 217, 88);
   color: maroon;
 }
 

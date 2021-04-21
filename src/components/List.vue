@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="list">
       <h2>{{title}}</h2>
       <Card v-for="card in cards" v-bind:key="card.id" v-bind:title="card.title"/>
       <button>Add card</button>
@@ -24,13 +24,13 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-div {
+.list {
   position: relative;
   margin: 10px;
   padding: 15px;
   font-size: 1em;
   border-radius: 15px;
-  background-color: lightseagreen;
+  background-color: rgb(231, 154, 66);
   color: maroon;
 }
 
@@ -49,7 +49,7 @@ button {
   font-size: 1em;
 }
 
-div:hover {
+.list:hover {
   background-color: seagreen;
 }
 

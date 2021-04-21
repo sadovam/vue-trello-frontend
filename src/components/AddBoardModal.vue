@@ -14,7 +14,6 @@ import api from '@/api';
 
 export default Vue.extend({
   name: 'AddBoardModal',
-  props: ['title'],
   data() {
     return {
       name: '',
