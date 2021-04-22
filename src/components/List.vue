@@ -6,9 +6,16 @@
         @blur="changeTitle"
         @keyup.enter="changeTitle"
       />
-      <h4 v-else @click="showTitleEdit=true; newTitle=title">{{title}}</h4>
+      <h4 v-else  @click="showTitleEdit=true; newTitle=title">{{title}}</h4>
       <Card v-for="card in cards" v-bind:key="card.id" v-bind:title="card.title"/>
-      <button>Add card</button>
+      <AddCard
+        v-if="showAddCard"
+        :boardId="boardId"
+        :listId="id"
+        :cardPosition="Object.keys(cards).length"
+        @close="showAddCard=false"
+      />
+      <button v-else @click="showAddCard=true">Add card</button>
     </div>
 </template>
 
@@ -16,6 +23,7 @@
 import Vue, { PropType } from 'vue';
 import { ICard } from '@/common/interfaces/card';
 import Card from '@/components/Card.vue';
+import AddCard from '@/components/AddCard.vue';
 import api from '@/api';
 
 export default Vue.extend({
@@ -30,10 +38,12 @@ export default Vue.extend({
     return {
       showTitleEdit: false,
       newTitle: '',
+      showAddCard: false,
     };
   },
   components: {
     Card,
+    AddCard,
   },
   methods: {
     changeTitle() {
