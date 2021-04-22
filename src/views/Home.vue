@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h1><img alt="Vue logo" src="../assets/logo.png"> My Boards</h1>
+    <Loader v-if="showLoader"/>
     <div v-if="boards" class="boards">
     <router-link v-for="board in boards" v-bind:key="board.id" v-bind:to="'/board/' + board.id">
       <BoardTmb v-bind:title="board.title" />
@@ -15,20 +16,30 @@
 import Vue from 'vue';
 import BoardTmb from '@/components/BoardTmb.vue';
 import AddBoardModal from '@/components/AddBoardModal.vue';
+import Loader from '@/components/Loader.vue';
 
 export default Vue.extend({
   name: 'Home',
   data() {
     return {
       showModal: false,
+      showLoader: false,
     };
   },
   async mounted() {
-    await this.$store.dispatch('getBoards');
+    this.showLoader = true;
+    this.$store.dispatch('getBoards')
+      .finally(() => {
+        this.showLoader = false;
+      })
+      .catch((error) => {
+        console.log('Error', error.response.data);
+      });
   },
   components: {
     BoardTmb,
     AddBoardModal,
+    Loader,
   },
   computed: {
     boards() {

@@ -3,6 +3,7 @@
     <form @submit.prevent="addBoard" @click.stop>
       <label>New Board Name: {{name}}</label>
       <input v-model.trim="name" placeholder="Type here name of new board...">
+      <Loader v-if="showLoader"/>
       <input type="submit">
     </form>
     </div>
@@ -11,24 +12,35 @@
 <script lang="ts">
 import Vue from 'vue';
 import api from '@/api';
+import Loader from '@/components/Loader.vue';
 
 export default Vue.extend({
   name: 'AddBoardModal',
   data() {
     return {
       name: '',
+      showLoader: false,
     };
+  },
+  components: {
+    Loader,
   },
   methods: {
     addBoard() {
       if (this.name === '') return;
+      this.showLoader = true;
       api.post('/board', { title: this.name })
+        .finally(() => {
+          this.showLoader = false;
+          this.$emit('close');
+        })
         .then(({ data: { result } }) => {
           if (result === 'Created') {
             this.name = '';
             this.$store.dispatch('getBoards');
           }
-          this.$emit('close');
+        }, (error) => {
+          console.log('Error', error.response.data);
         });
     },
   },

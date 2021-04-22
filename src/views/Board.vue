@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1 @click="switchTitleEditInput">{{board.title}}</h1>
+        <Loader v-if="showLoader"/>
         <input
           v-if="showTitleEdit"
           v-model.trim="newTitle"
@@ -31,6 +32,7 @@ import Vue from 'vue';
 import List from '@/components/List.vue';
 import AddList from '@/components/AddList.vue';
 import api from '@/api';
+import Loader from '@/components/Loader.vue';
 
 export default Vue.extend({
   name: 'Board',
@@ -40,11 +42,19 @@ export default Vue.extend({
       showTitleEdit: false,
       newTitle: '',
       showAddList: false,
+      showLoader: false,
     };
   },
 
   async mounted() {
-    await this.$store.dispatch('getBoard', { id: this.$route.params.board_id });
+    this.showLoader = true;
+    this.$store.dispatch('getBoard', { id: this.$route.params.board_id })
+      .finally(() => {
+        this.showLoader = false;
+      })
+      .catch((error) => {
+        console.log('Error', error.response.data);
+      });
   },
 
   computed: {
@@ -56,6 +66,7 @@ export default Vue.extend({
   components: {
     List,
     AddList,
+    Loader,
   },
 
   methods: {

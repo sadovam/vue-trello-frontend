@@ -1,5 +1,6 @@
 <template>
     <div class="list">
+      <Loader v-if="showLoader"/>
       <input
         v-if="showTitleEdit"
         v-model.trim="newTitle"
@@ -25,6 +26,7 @@ import { ICard } from '@/common/interfaces/card';
 import Card from '@/components/Card.vue';
 import AddCard from '@/components/AddCard.vue';
 import api from '@/api';
+import Loader from '@/components/Loader.vue';
 
 export default Vue.extend({
   name: 'List',
@@ -39,22 +41,30 @@ export default Vue.extend({
       showTitleEdit: false,
       newTitle: '',
       showAddCard: false,
+      showLoader: false,
     };
   },
   components: {
     Card,
     AddCard,
+    Loader,
   },
   methods: {
     changeTitle() {
       if (this.newTitle === '') return;
+      this.showLoader = true;
       api.put(`/board/${this.boardId}/list/${this.id}`, { title: this.newTitle })
+        .finally(() => {
+          this.showLoader = false;
+          this.showTitleEdit = false;
+        })
         .then(({ data: { result } }) => {
           if (result === 'Updated') {
             this.$store.dispatch('getBoard', { id: this.boardId });
           }
+        }, (error) => {
+          console.log('Error', error.response.data);
         });
-      this.showTitleEdit = false;
     },
   },
 });
