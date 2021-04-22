@@ -2,7 +2,7 @@
     <div class="modal" @click="$emit('close')">
     <form @submit.prevent="addBoard" @click.stop>
       <label>New Board Name: {{name}}</label>
-      <input v-model="name" placeholder="Type here name of new board...">
+      <input v-model.trim="name" placeholder="Type here name of new board...">
       <input type="submit">
     </form>
     </div>
@@ -21,7 +21,6 @@ export default Vue.extend({
   },
   methods: {
     addBoard() {
-      this.name = this.name.trim();
       if (this.name === '') return;
       api.post('/board', { title: this.name })
         .then(({ data: { result } }) => {

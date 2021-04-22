@@ -3,7 +3,7 @@
         <h1 @click="switchTitleEditInput">{{board.title}}</h1>
         <input
           v-if="showTitleEdit"
-          v-model="newTitle"
+          v-model.trim="newTitle"
           @keyup.enter="updateTitle"
           @blur="updateTitle"
         />
@@ -13,8 +13,15 @@
           v-bind:key="list.id"
           v-bind:title="list.title"
           v-bind:cards="list.cards"
+          v-bind:id="list.id"
+          v-bind:boardId="$route.params.board_id"
           />
-        <button>Add list</button>
+        <AddList v-if="showAddList"
+          :boardId="$route.params.board_id"
+          :listPosition="Object.keys(board.lists).length"
+          @close="showAddList=false"
+        />
+        <button v-else @click="showAddList=true">Add list</button>
         </div>
     </div>
 </template>
@@ -22,6 +29,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import List from '@/components/List.vue';
+import AddList from '@/components/AddList.vue';
 import api from '@/api';
 
 export default Vue.extend({
@@ -31,6 +39,7 @@ export default Vue.extend({
     return {
       showTitleEdit: false,
       newTitle: '',
+      showAddList: false,
     };
   },
 
@@ -46,6 +55,7 @@ export default Vue.extend({
 
   components: {
     List,
+    AddList,
   },
 
   methods: {
@@ -54,7 +64,6 @@ export default Vue.extend({
       this.newTitle = this.board.title;
     },
     updateTitle() {
-      this.newTitle = this.newTitle.trim();
       if (this.newTitle === '') return;
       api.put(`/board/${this.$route.params.board_id}`, { title: this.newTitle })
         .then(({ data: { result } }) => {
