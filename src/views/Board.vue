@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 v-if="currentBoard" @click="switchTitleEditInput">{{currentBoard.title}}</h1>
+        <h1 @click="switchTitleEditInput">{{board.title}}</h1>
         <input
           v-if="showTitleEdit"
           v-model="newTitle"
@@ -35,20 +35,12 @@ export default Vue.extend({
   },
 
   async mounted() {
-    if (!this.currentBoard) {
-      await this.$store.dispatch('getBoards');
-    }
     await this.$store.dispatch('getBoard', { id: this.$route.params.board_id });
   },
 
   computed: {
     board() {
       return this.$store.getters.board;
-    },
-    currentBoard() {
-      return this.$store.state.boards.find(
-        (board: {id: number, title: string}) => board.id.toString() === this.$route.params.board_id,
-      );
     },
   },
 
@@ -59,7 +51,7 @@ export default Vue.extend({
   methods: {
     switchTitleEditInput() {
       this.showTitleEdit = !this.showTitleEdit;
-      this.newTitle = this.currentBoard.title;
+      this.newTitle = this.board.title;
     },
     updateTitle() {
       this.newTitle = this.newTitle.trim();
@@ -67,7 +59,7 @@ export default Vue.extend({
       api.put(`/board/${this.$route.params.board_id}`, { title: this.newTitle })
         .then(({ data: { result } }) => {
           if (result === 'Updated') {
-            this.$store.dispatch('getBoards');
+            this.$store.dispatch('getBoard', { id: this.$route.params.board_id });
           }
           this.showTitleEdit = false;
         });
