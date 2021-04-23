@@ -6,6 +6,7 @@
       <router-link to="/board">Board</router-link>
     </div>
     <router-view/>
+    <notifications position="top right"/>
   </div>
 </template>
 

@@ -63,7 +63,11 @@ export default Vue.extend({
             this.$store.dispatch('getBoard', { id: this.boardId });
           }
         }, (error) => {
-          console.log('Error', error.response.data);
+          this.$notify({
+            type: 'error',
+            title: error.message,
+            text: 'We can`t change title of your list. Something is wrong. Try later or call administrator.',
+          });
         });
     },
   },

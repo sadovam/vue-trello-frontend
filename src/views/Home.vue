@@ -32,8 +32,8 @@ export default Vue.extend({
       .finally(() => {
         this.showLoader = false;
       })
-      .catch((error) => {
-        console.log('Error', error.response.data);
+      .catch((error): void => {
+        this.$notify({ type: 'error', title: error.message, text: 'We can`t load your boards. Something is wrong. Try later or call administrator.' });
       });
   },
   components: {
