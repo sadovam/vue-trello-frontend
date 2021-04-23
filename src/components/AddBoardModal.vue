@@ -29,7 +29,7 @@ export default Vue.extend({
     addBoard() {
       if (this.name === '') return;
       this.showLoader = true;
-      api.post('/board', { titl: this.name })
+      api.post('/board', { title: this.name })
         .finally(() => {
           this.showLoader = false;
           this.$emit('close');
