@@ -53,7 +53,7 @@ export default Vue.extend({
         this.showLoader = false;
       })
       .catch((error) => {
-        console.log('Error', error.response.data);
+        this.$notify({ type: 'error', title: error.message, text: 'We can`t load your lists. Something is wrong. Try later or call administrator.' });
       });
   },
 
@@ -76,12 +76,22 @@ export default Vue.extend({
     },
     updateTitle() {
       if (this.newTitle === '') return;
+      this.showLoader = true;
       api.put(`/board/${this.$route.params.board_id}`, { title: this.newTitle })
+        .finally(() => {
+          this.showLoader = false;
+          this.showTitleEdit = false;
+        })
         .then(({ data: { result } }) => {
           if (result === 'Updated') {
             this.$store.dispatch('getBoard', { id: this.$route.params.board_id });
           }
-          this.showTitleEdit = false;
+        }, (error) => {
+          this.$notify({
+            type: 'error',
+            title: error.message,
+            text: 'We can`t change title of your list. Something is wrong. Try later or call administrator.',
+          });
         });
     },
   },

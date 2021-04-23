@@ -29,7 +29,7 @@ export default Vue.extend({
     addBoard() {
       if (this.name === '') return;
       this.showLoader = true;
-      api.post('/board', { title: this.name })
+      api.post('/board', { titl: this.name })
         .finally(() => {
           this.showLoader = false;
           this.$emit('close');
@@ -40,7 +40,11 @@ export default Vue.extend({
             this.$store.dispatch('getBoards');
           }
         }, (error) => {
-          console.log('Error', error.response.data);
+          this.$notify({
+            type: 'error',
+            title: error.message,
+            text: 'We can`t create your new board. Something is wrong. Try later or call administrator.',
+          });
         });
     },
   },
