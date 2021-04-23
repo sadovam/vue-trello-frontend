@@ -7,7 +7,7 @@
         @blur="changeTitle"
         @keyup.enter="changeTitle"
       />
-      <h4 v-else  @click="showTitleEdit=true; newTitle=title">{{title}}</h4>
+      <h4 v-else  @click="showTitleEdit=!showTitleEdit; newTitle=title">{{title}}</h4>
       <Card v-for="card in cards" v-bind:key="card.id" v-bind:title="card.title"/>
       <AddCard
         v-if="showAddCard"
@@ -51,7 +51,16 @@ export default Vue.extend({
   },
   methods: {
     changeTitle() {
-      if (this.newTitle === '') return;
+      // eslint-disable-next-line no-useless-escape
+      if (this.newTitle.match(/^[\d\p{L} \.,_-]+$/u) === null) {
+        this.$notify({
+          type: 'error',
+          title: 'Uncorrect list title.',
+          text: 'Title can`t be empty. It can use numbers, letters (a, A), spaces, dashes, dots, underscores.',
+        });
+        return;
+      }
+
       this.showLoader = true;
       api.put(`/board/${this.boardId}/list/${this.id}`, { title: this.newTitle })
         .finally(() => {

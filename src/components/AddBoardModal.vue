@@ -27,7 +27,15 @@ export default Vue.extend({
   },
   methods: {
     addBoard() {
-      if (this.name === '') return;
+      // eslint-disable-next-line no-useless-escape
+      if (this.name.match(/^[\d\p{L} \.,_-]+$/u) === null) {
+        this.$notify({
+          type: 'error',
+          title: 'Uncorrect board title.',
+          text: 'Title can`t be empty. It can use numbers, letters (a, A), spaces, dashes, dots, underscores.',
+        });
+        return;
+      }
       this.showLoader = true;
       api.post('/board', { title: this.name })
         .finally(() => {

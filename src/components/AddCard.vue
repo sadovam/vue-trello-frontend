@@ -30,7 +30,15 @@ export default Vue.extend({
   },
   methods: {
     addCard() {
-      if (this.newTitle === '') return;
+      // eslint-disable-next-line no-useless-escape
+      if (this.newTitle.match(/^[\d\p{L} \.,_-]+$/u) === null) {
+        this.$notify({
+          type: 'error',
+          title: 'Uncorrect card title.',
+          text: 'Title can`t be empty. It can use numbers, letters (a, A), spaces, dashes, dots, underscores.',
+        });
+        return;
+      }
       api.post(`/board/${this.boardId}/card`,
         { title: this.newTitle, position: this.cardPosition, list_id: this.listId })
         .finally(() => {

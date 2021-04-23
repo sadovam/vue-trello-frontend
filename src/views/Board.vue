@@ -75,7 +75,16 @@ export default Vue.extend({
       this.newTitle = this.board.title;
     },
     updateTitle() {
-      if (this.newTitle === '') return;
+      // eslint-disable-next-line no-useless-escape
+      if (this.newTitle.match(/^[\d\p{L} \.,_-]+$/u) === null) {
+        this.$notify({
+          type: 'error',
+          title: 'Uncorrect board title.',
+          text: 'Title can`t be empty. It can use numbers, letters (a, A), spaces, dashes, dots, underscores.',
+        });
+        return;
+      }
+
       this.showLoader = true;
       api.put(`/board/${this.$route.params.board_id}`, { title: this.newTitle })
         .finally(() => {

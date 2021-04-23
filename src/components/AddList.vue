@@ -31,7 +31,15 @@ export default Vue.extend({
   },
   methods: {
     addList() {
-      if (this.newTitle === '') return;
+      // eslint-disable-next-line no-useless-escape
+      if (this.newTitle.match(/^[\d\p{L} \.,_-]+$/u) === null) {
+        this.$notify({
+          type: 'error',
+          title: 'Uncorrect list title.',
+          text: 'Title can`t be empty. It can use numbers, letters (a, A), spaces, dashes, dots, underscores.',
+        });
+        return;
+      }
       api.post(`/board/${this.boardId}/list`, { title: this.newTitle, position: this.listPosition })
         .finally(() => {
           this.showLoader = false;
