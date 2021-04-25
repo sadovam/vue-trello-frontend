@@ -1,13 +1,13 @@
 <template>
     <div class="list">
-      <Loader v-if="showLoader"/>
+      <h4 @click="showTitleEdit=!showTitleEdit; newTitle=title">{{title}}</h4>
       <input
         v-if="showTitleEdit"
         v-model.trim="newTitle"
         @blur="changeTitle"
         @keyup.enter="changeTitle"
       />
-      <h4 v-else  @click="showTitleEdit=!showTitleEdit; newTitle=title">{{title}}</h4>
+      <Spinner v-if="showSpinner"/>
       <Card v-for="card in cards" v-bind:key="card.id" v-bind:title="card.title"/>
       <AddCard
         v-if="showAddCard"
@@ -26,7 +26,7 @@ import { ICard } from '@/common/interfaces/card';
 import Card from '@/components/Card.vue';
 import AddCard from '@/components/AddCard.vue';
 import api from '@/api';
-import Loader from '@/components/Loader.vue';
+import Spinner from '@/components/Spinner.vue';
 
 export default Vue.extend({
   name: 'List',
@@ -41,13 +41,13 @@ export default Vue.extend({
       showTitleEdit: false,
       newTitle: '',
       showAddCard: false,
-      showLoader: false,
+      showSpinner: false,
     };
   },
   components: {
     Card,
     AddCard,
-    Loader,
+    Spinner,
   },
   methods: {
     changeTitle() {
@@ -61,10 +61,10 @@ export default Vue.extend({
         return;
       }
 
-      this.showLoader = true;
+      this.showSpinner = true;
       api.put(`/board/${this.boardId}/list/${this.id}`, { title: this.newTitle })
         .finally(() => {
-          this.showLoader = false;
+          this.showSpinner = false;
           this.showTitleEdit = false;
         })
         .then(({ data: { result } }) => {
@@ -84,33 +84,38 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/scss/_main';
+
 .list {
-  position: relative;
+  min-width: 18em;
   margin: 10px;
-  padding: 15px;
+  padding: 5px;
   font-size: 1em;
   border-radius: 15px;
-  background-color: rgb(231, 154, 66);
-  color: maroon;
+  background-color: $bg1;
+  color: $fg1;
+}
+
+input {
+  border-radius: 10px;
+  padding: 8px 15px;
+  margin-bottom: 10px;
 }
 
 button {
-  display: block;
-  position: absolute;
-  bottom: 0;
-  right: 0;
   outline: transparent;
   border: none;
   border-radius: 10px;
-  padding: 5px 7px;
-  background-color: maroon;
-  color: white;
   font-weight: bold;
   font-size: 1em;
+  margin: 10px;
+  padding: 15px;
+  background-color: $bg1;
+  color: $fg1;
 }
 
 .list:hover {
-  background-color: seagreen;
+  background-color: $bg2;
 }
 
 </style>

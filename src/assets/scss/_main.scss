@@ -1,15 +1,6 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  padding: 0;
-  margin: 0;
-  background-color: rgb(221, 236, 135);
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-}
+$shadow: #030706;
+$shadow2: #b3c7c6;
+$bg1: #233739;
+$bg2: #304446;
+$fg1: #0dbc79;
+$fg2: #1d8c59;

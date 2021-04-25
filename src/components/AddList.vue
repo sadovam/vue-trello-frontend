@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div class="list">
     <h3>Create new list</h3>
     <input
           placeholder="Type here title of new list..."
           v-model.trim="newTitle"
           @keyup.enter="addList"
     />
-    <Loader v-if="showLoader"/>
+    <Spinner v-if="showSpinner"/>
     <button @click="addList">Create</button>
     <button @click="$emit('close')" >Cancel</button>
     </div>
@@ -15,7 +15,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import api from '@/api';
-import Loader from '@/components/Loader.vue';
+import Spinner from '@/components/Spinner.vue';
 
 export default Vue.extend({
   name: 'AddList',
@@ -23,11 +23,11 @@ export default Vue.extend({
   data() {
     return {
       newTitle: '',
-      showLoader: false,
+      showSpinner: false,
     };
   },
   components: {
-    Loader,
+    Spinner,
   },
   methods: {
     addList() {
@@ -42,7 +42,7 @@ export default Vue.extend({
       }
       api.post(`/board/${this.boardId}/list`, { title: this.newTitle, position: this.listPosition })
         .finally(() => {
-          this.showLoader = false;
+          this.showSpinner = false;
           this.$emit('close');
         })
         .then(({ data: { result } }) => {
@@ -63,20 +63,45 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-div {
-  padding: 20px;
-  align-items: center;
-  background-color: cadetblue;
-  border-radius: 25px;
+@import '@/assets/scss/_main';
+.list {
+  min-width: 18em;
+  margin: 10px;
+  padding: 15px;
+  font-size: 1em;
+  border-radius: 15px;
+  background-color: $bg1;
+  color: $fg1;
+}
+
+input {
+  display: block;
+  border-radius: 10px;
+  padding: 8px 15px;
+  margin-bottom: 10px;
 }
 
 input, h3 {
-  margin: 7px;
+  margin: 15px;
 }
 
 button {
   display: inline-block;
-  margin: 5px;
+  padding: 5px 15px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: $bg2;
+  color: $fg1;
+  text-shadow: 1px 1px 2px $shadow;
+  box-shadow: 2px 2px 3px $shadow;
+  outline-color: transparent;
+  border-color: transparent;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.list:hover {
+  background-color: $bg2;
 }
 
 </style>

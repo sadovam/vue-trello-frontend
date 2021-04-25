@@ -16,18 +16,19 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/scss/_main';
 div {
   position: relative;
   margin: 10px;
   padding: 15px;
   font-size: 1em;
   border-radius: 15px;
-  background-color: rgb(226, 217, 88);
-  color: maroon;
+  background-color: $bg2;
+  color: $fg1;
 }
 
 div:hover {
-  background-color: rgb(19, 82, 46);
+  background-color: $bg1;
 }
 
 </style>

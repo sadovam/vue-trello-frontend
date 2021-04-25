@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="board">
         <h1 @click="switchTitleEditInput">{{board.title}}</h1>
-        <Loader v-if="showLoader"/>
+        <Spinner v-if="showSpinner"/>
         <input
           v-if="showTitleEdit"
           v-model.trim="newTitle"
@@ -10,19 +10,21 @@
         />
         <div class="lists">
           <List
-          v-for="list in board.lists"
-          v-bind:key="list.id"
-          v-bind:title="list.title"
-          v-bind:cards="list.cards"
-          v-bind:id="list.id"
-          v-bind:boardId="$route.params.board_id"
+            v-for="list in board.lists"
+            v-bind:key="list.id"
+            v-bind:title="list.title"
+            v-bind:cards="list.cards"
+            v-bind:id="list.id"
+            v-bind:boardId="$route.params.board_id"
           />
-        <AddList v-if="showAddList"
-          :boardId="$route.params.board_id"
-          :listPosition="Object.keys(board.lists).length"
-          @close="showAddList=false"
-        />
-        <button v-else @click="showAddList=true">Add list</button>
+          <div class="last">
+          <AddList v-if="showAddList"
+            :boardId="$route.params.board_id"
+            :listPosition="Object.keys(board.lists).length"
+            @close="showAddList=false"
+          />
+          <button v-else @click="showAddList=true">Add list</button>
+          </div>
         </div>
     </div>
 </template>
@@ -32,7 +34,7 @@ import Vue from 'vue';
 import List from '@/components/List.vue';
 import AddList from '@/components/AddList.vue';
 import api from '@/api';
-import Loader from '@/components/Loader.vue';
+import Spinner from '@/components/Spinner.vue';
 
 export default Vue.extend({
   name: 'Board',
@@ -42,15 +44,15 @@ export default Vue.extend({
       showTitleEdit: false,
       newTitle: '',
       showAddList: false,
-      showLoader: false,
+      showSpinner: false,
     };
   },
 
   async mounted() {
-    this.showLoader = true;
+    this.showSpinner = true;
     this.$store.dispatch('getBoard', { id: this.$route.params.board_id })
       .finally(() => {
-        this.showLoader = false;
+        this.showSpinner = false;
       })
       .catch((error) => {
         this.$notify({ type: 'error', title: error.message, text: 'We can`t load your lists. Something is wrong. Try later or call administrator.' });
@@ -66,7 +68,7 @@ export default Vue.extend({
   components: {
     List,
     AddList,
-    Loader,
+    Spinner,
   },
 
   methods: {
@@ -85,10 +87,10 @@ export default Vue.extend({
         return;
       }
 
-      this.showLoader = true;
+      this.showSpinner = true;
       api.put(`/board/${this.$route.params.board_id}`, { title: this.newTitle })
         .finally(() => {
-          this.showLoader = false;
+          this.showSpinner = false;
           this.showTitleEdit = false;
         })
         .then(({ data: { result } }) => {
@@ -108,24 +110,47 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/scss/_main';
+
 h1 {
-  color: darkgreen;
+  margin-top: 50px;
+  color: $fg1;
+}
+
+input {
+  border-radius: 10px;
+  padding: 8px 15px;
+  margin-bottom: 10px;
+}
+
+.board {
+  height: 93%;
+  margin: 5px 20px;
 }
 
 .lists {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  padding: 10px;
+  display: flex;
+  align-items: flex-start;
 }
 
 button {
-  padding: 15px;
+  min-width: 15em;
+  padding: 0.5em;
   margin: 10px;
-  font-size: 1em;
+  font-size: 1.2em;
   border-radius: 15px;
-  background-color: rgb(62, 218, 210);
-  color: darkred;
-  height: 7em;
+  height: 2.5em;
+  font-weight: bold;
+  background-color: $bg1;
+  color: $fg1;
+  text-shadow: 1px 1px 2px $shadow;
+  box-shadow: 2px 2px 3px $shadow;
+  outline-color: transparent;
+  border-color: transparent;
 }
 
+.last {
+  min-width: 20em;
+  padding-right: 20px;
+}
 </style>

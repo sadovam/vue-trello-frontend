@@ -1,10 +1,10 @@
 <template>
     <div class="modal" @click="$emit('close')">
     <form @submit.prevent="addBoard" @click.stop>
-      <label>New Board Name: {{name}}</label>
+      <label>New Board Name:</label>
       <input v-model.trim="name" placeholder="Type here name of new board...">
-      <Loader v-if="showLoader"/>
-      <input type="submit">
+      <Spinner v-if="showSpinner"/>
+      <button>Add</button>
     </form>
     </div>
 </template>
@@ -12,18 +12,18 @@
 <script lang="ts">
 import Vue from 'vue';
 import api from '@/api';
-import Loader from '@/components/Loader.vue';
+import Spinner from '@/components/Spinner.vue';
 
 export default Vue.extend({
   name: 'AddBoardModal',
   data() {
     return {
       name: '',
-      showLoader: false,
+      showSpinner: false,
     };
   },
   components: {
-    Loader,
+    Spinner,
   },
   methods: {
     addBoard() {
@@ -36,10 +36,10 @@ export default Vue.extend({
         });
         return;
       }
-      this.showLoader = true;
+      this.showSpinner = true;
       api.post('/board', { title: this.name })
         .finally(() => {
-          this.showLoader = false;
+          this.showSpinner = false;
           this.$emit('close');
         })
         .then(({ data: { result } }) => {
@@ -60,18 +60,43 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/scss/_main';
+
 form {
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: cadetblue;
-  border-radius: 25px;
+  background-color: $bg1;
+  border-radius: 15px;
+}
+
+label {
+  font-size: 1em;
+  color: $fg1;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px $shadow;
+}
+
+button {
+  padding: 5px 15px;
+  margin-top: 20px;
+  border-radius: 5px;
+  background-color: $bg2;
+  color: $fg1;
+  text-shadow: 1px 1px 2px $shadow;
+  box-shadow: 2px 2px 3px $shadow;
+  outline-color: transparent;
+  border-color: transparent;
+  font-size: 1em;
+  font-weight: bold;
 }
 
 input {
   margin-top: 20px;
+  border-radius: 10px;
+  padding: 8px 15px;
 }
 
 .modal {
