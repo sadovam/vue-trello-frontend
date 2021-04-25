@@ -1,6 +1,6 @@
 <template>
     <div class="board">
-        <h1 @click="switchTitleEditInput">{{board.title}}</h1>
+        <h2 @click="switchTitleEditInput">{{board.title}}</h2>
         <Spinner v-if="showSpinner"/>
         <input
           v-if="showTitleEdit"
@@ -112,9 +112,12 @@ export default Vue.extend({
 <style scoped lang="scss">
 @import '@/assets/scss/_main';
 
-h1 {
+h2 {
   margin-top: 50px;
+  margin-left: 10px;
   color: $fg1;
+  text-align: left;
+  font-size: 2em;
 }
 
 input {

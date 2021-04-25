@@ -80,6 +80,7 @@ div:hover {
 }
 
 input {
+  display: block;
   width: 90%;
   border-radius: 10px;
   padding: 8px 15px;

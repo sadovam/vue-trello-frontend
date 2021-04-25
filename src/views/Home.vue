@@ -66,9 +66,8 @@ export default Vue.extend({
 }
 
 .title {
-  margin: 50px 20px 0;
+  margin: 50px 10px 0;
   display: flex;
-  justify-content: space-around;
   align-items: center;
 }
 
@@ -88,18 +87,19 @@ button {
 
 h1 {
   font-size: 2em;
+  margin-right: 20px;
   color: $fg1;
   text-shadow: 2px 2px 4px $shadow;
 }
 
 .boards {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
-  padding: 10px;
 }
 
 a {
+  width: 15em;
   text-decoration: none;
   color: $fg2;
   text-shadow: 1px 1px 2px $shadow;

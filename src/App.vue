@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link>
-      <h1><img alt="Vue logo" src="@/assets/logo.png"> Vue-Trello-Frontend</h1>
-      <router-link to="/about">About</router-link>
+      <div>
+        <router-link to="/">Home</router-link>
+        <h1><img alt="Vue logo" src="@/assets/logo.png"> Vue-Trello-Frontend</h1>
+        <router-link to="/about">About</router-link>
+      </div>
     </div>
     <router-view/>
     <notifications position="top right"/>
@@ -39,10 +41,16 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background-color: $bg2;
+
+  div {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   a {
     font-weight: bold;
@@ -53,6 +61,9 @@ body {
     text-shadow: 1px 1px 2px $shadow;
 
     &.router-link-exact-active {
+      border-radius: 4px;
+      padding: 10px 20px;
+      margin: 5px 0;
       background-color: $fg1;
       color: $bg1;
       text-shadow: 1px 1px 2px $shadow2;

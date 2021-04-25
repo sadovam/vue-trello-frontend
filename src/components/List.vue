@@ -96,6 +96,14 @@ export default Vue.extend({
   color: $fg1;
 }
 
+h4 {
+  margin: 10px;
+  padding: 15px;
+  font-size: 1.2em;
+  border-radius: 15px;
+  background-color: $bg1;
+}
+
 input {
   border-radius: 10px;
   padding: 8px 15px;

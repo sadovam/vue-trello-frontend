@@ -19,18 +19,22 @@ export default Vue.extend({
 div {
   height: 9em;
   min-width: 11em;
-  margin: 15px;
+  margin: 10px;
   padding: 15px;
   font-size: 1em;
-  border-radius: 15px;
+  border-radius: 5px;
   background-color: $bg2;
   box-shadow: 2px 2px 4px $shadow;
   transition: background-color 0.3s
 }
 
 h2 {
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
   padding: 5px 15px;
-  border-radius: 10px;
   background-color: $bg1;
   box-shadow: -2px -2px 1px $shadow;
   font-size: 1.2em;
@@ -47,9 +51,8 @@ div:hover > h2 {
 }
 
 hr {
-  width: 70%;
+  width: 80%;
   height: 0.3em;
-  margin-top: 3em;
   background-color: $bg1;
   box-shadow: 1px 1px 2px $shadow;
   border: none;
